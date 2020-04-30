@@ -1,7 +1,5 @@
 package com.company;
 
-import java.util.Date;
-
 public class StandardTicket extends Ticket {
     protected StandardTicket(Long id, User user, Event event, Double price) {
         super(id, user, event, price);
