@@ -3,40 +3,40 @@ package com.company;
 import java.util.ArrayList;
 
 public class PremiumTicket extends Ticket{
-    private ArrayList<EventBonus> eventBonuses;
+    private ArrayList<EventBonus2> eventBonus2s;
 
     protected PremiumTicket(Long id, User user, Event event, Double price) {
         super(id, user, event, price);
-        ArrayList<EventBonus> eventBonuses = new ArrayList<>();
+        ArrayList<EventBonus2> eventBonus2s = new ArrayList<>();
 
         if(event.getEventType().getName().equals("Art Exposition")) {
-            eventBonuses.add(EventBonus.FREEDRINKS);
-            eventBonuses.add(EventBonus.FREEFOOD);
+            eventBonus2s.add(EventBonus2.FREEDRINKS);
+            eventBonus2s.add(EventBonus2.FREEFOOD);
         } else {
-            eventBonuses.add(EventBonus.BACKSTAGEACCESS);
-            eventBonuses.add(EventBonus.EXTRAMERCH);
-            eventBonuses.add(EventBonus.REPETITIONSACCESS);
+            eventBonus2s.add(EventBonus2.BACKSTAGEACCESS);
+            eventBonus2s.add(EventBonus2.EXTRAMERCH);
+            eventBonus2s.add(EventBonus2.REPETITIONSACCESS);
         }
 
-        this.eventBonuses = eventBonuses;
+        this.eventBonus2s = eventBonus2s;
     }
 
     public PremiumTicket() {
         super();
     }
 
-    public ArrayList<EventBonus> getEventBonuses() {
-        return eventBonuses;
+    public ArrayList<EventBonus2> getEventBonus2s() {
+        return eventBonus2s;
     }
 
-    public void setEventBonuses(ArrayList<EventBonus> eventBonuses) {
-        this.eventBonuses = eventBonuses;
+    public void setEventBonus2s(ArrayList<EventBonus2> eventBonus2s) {
+        this.eventBonus2s = eventBonus2s;
     }
 
     @Override
     public String toString() {
         return "PremiumTicket{" +
-                "eventBonuses=" + eventBonuses +
+                "eventBonuses=" + eventBonus2s +
                 ", id=" + id +
                 ", user=" + user +
                 ", event=" + event +
