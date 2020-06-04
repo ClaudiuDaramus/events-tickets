@@ -1,30 +1,30 @@
-CREATE TABLE event_location(
+CREATE TABLE event_locations(
     id number(10) NOT NULL,
     address varchar2(50) NOT NUll,
     name varchar2(50) NOT NUll,
     country varchar2(50) NOT NUll,
     city varchar2(50) NOT NUll,
 
-    CONSTRAINT event_location_pk PRIMARY KEY (id)
+    CONSTRAINT event_locations_pk PRIMARY KEY (id)
 );
 
-INSERT INTO event_location
+INSERT INTO event_locations
 VALUES (1, 'somewhere', 'Arena Nationala', 'Romania' , 'Bucuresti');
-INSERT INTO event_location
+INSERT INTO event_locations
 VALUES (2, 'nowhere', 'Romexpo', 'Romania' , 'Bucuresti');
 
 
-CREATE TABLE event_type(
+CREATE TABLE event_types(
     id number(10) NOT NULL,
     name varchar2(50) NOT NUll,
 
-    CONSTRAINT event_type_pk PRIMARY KEY (id)
+    CONSTRAINT event_types_pk PRIMARY KEY (id)
 );
 
-INSERT INTO event_type
-VALUES (1, 'Art Exposition');
-INSERT INTO event_type
+INSERT INTO event_types
 VALUES (0, 'Concert');
+INSERT INTO event_types
+VALUES (1, 'Art Exposition');
 
 
 CREATE TABLE users(
@@ -49,79 +49,127 @@ INSERT INTO users
 VALUES (4, 'juliaTomato', 'Julia', 'Tomato', 'julia@tomato.com',TO_DATE('2003/05/03 21:02:44', 'yyyy/mm/dd hh24:mi:ss'), 77342);
 
 
-CREATE TABLE event(
+CREATE TABLE events(
     id number(10) NOT NULL,
-    event_location_id number(10) NOT NULL,
+    event_type_id number(10) NOT NULL,
+    events_location_id number(10) NOT NULL,
     name varchar2(50) NOT NULL,
     eventDate date NOT NULL,
 
-    CONSTRAINT event_pk PRIMARY KEY (id),
+    CONSTRAINT events_pk PRIMARY KEY (id),
+    CONSTRAINT fk_event_type_id
+        FOREIGN KEY (event_type_id)
+        REFERENCES event_types(id),
     CONSTRAINT fk_event_event_location
-        FOREIGN KEY (event_location_id)
-        REFERENCES event_location(id)
+        FOREIGN KEY (events_location_id)
+        REFERENCES event_locations(id)
 );
 
-INSERT INTO event
-VALUES (1, 1, 'Burning Skies Tour',TO_DATE('2003/05/03 21:02:44', 'yyyy/mm/dd hh24:mi:ss'));
-INSERT INTO event
-VALUES (2, 2, 'Blue Wave Exp',TO_DATE('2003/05/03 21:02:44', 'yyyy/mm/dd hh24:mi:ss'));
+INSERT INTO events
+VALUES (1, 0, 1, 'Burning Skies Tour',TO_DATE('2003/05/03 21:02:44', 'yyyy/mm/dd hh24:mi:ss'));
+INSERT INTO events
+VALUES (2, 1, 2, 'Blue Wave Exp',TO_DATE('2003/05/03 21:02:44', 'yyyy/mm/dd hh24:mi:ss'));
 
 
-CREATE TABLE ticket(
+CREATE TABLE bonuses(
+    id number(10) NOT NULL,
+    name varchar2(200),
+
+    CONSTRAINT bonuses_pk PRIMARY KEY (id)
+);
+
+INSERT INTO bonuses
+VALUES (1, 'BACKSTAGEACCESS');
+
+INSERT INTO bonuses
+VALUES (2, 'EXTRAMERCH');
+
+INSERT INTO bonuses
+VALUES (3, 'REPETITIONSACCESS');
+
+INSERT INTO bonuses
+VALUES (4, 'FREEDRINKS');
+
+INSERT INTO bonuses
+VALUES (5, 'FREEFOOD');
+
+CREATE TABLE tickets(
     id number(10) NOT NULL,
     type number(10) NOT NULL,
     event_id number(10) NOT NULL,
     price float (10) NOT NULL,
-    event_bonus varchar2(200),
 
-    CONSTRAINT ticket_pk PRIMARY KEY (id),
-    CONSTRAINT fk_ticket_event
+    CONSTRAINT tickets_pk PRIMARY KEY (id),
+    CONSTRAINT fk_tickets_events
         FOREIGN KEY (event_id)
-        REFERENCES event(id)
+        REFERENCES events(id)
 );
 
-INSERT INTO ticket
-(id, type, event_id, price)
+INSERT INTO tickets
 VALUES (1, 0, 1, 49.99);
-INSERT INTO ticket
-(id, type, event_id, price)
+INSERT INTO tickets
 VALUES (2, 0, 2, 99.99);
-INSERT INTO ticket
-VALUES (3, 1, 1, 150.59, 'BACKSTAGEACCESS, EXTRAMERCH, REPETITIONSACCESS');
-INSERT INTO ticket
-VALUES (4, 1, 2, 299.45, 'FREEDRINKS, FREEFOOD');
+INSERT INTO tickets
+VALUES (3, 1, 1, 150.59);
+INSERT INTO tickets
+VALUES (4, 1, 2, 299.45);
 
 
-CREATE TABLE users_ticket(
-    id number(10) NOT NULL,
+CREATE TABLE tickets_bonuses(
+    ticket_id number(10) NOT NULL,
+    bonus_id number(10) NOT NULL,
+
+    CONSTRAINT tickets_bonuses_pk PRIMARY KEY (ticket_id, bonus_id),
+    CONSTRAINT fk_tickets_bonuses_tickets
+        FOREIGN KEY (ticket_id)
+        REFERENCES tickets(id),
+    CONSTRAINT fk_tickets_bonuses_bonuses
+        FOREIGN KEY (bonus_id)
+        REFERENCES bonuses(id)
+);
+
+INSERT INTO tickets_bonuses
+VALUES (1, 1);
+INSERT INTO tickets_bonuses
+VALUES (1, 2);
+INSERT INTO tickets_bonuses
+VALUES (2, 3);
+INSERT INTO tickets_bonuses
+VALUES (2, 4);
+INSERT INTO tickets_bonuses
+VALUES (2, 5);
+
+
+CREATE TABLE users_tickets(
     users_id number(10) NOT NULL,
     ticket_id number(10) NOT NULL,
 
-    CONSTRAINT users_ticket_pk PRIMARY KEY (id),
-    CONSTRAINT fk_users_ticket_users
+    CONSTRAINT users_tickets_pk PRIMARY KEY (users_id, ticket_id),
+    CONSTRAINT fk_users_tickets_users
         FOREIGN KEY (users_id)
         REFERENCES users(id),
-    CONSTRAINT fk_users_ticket_ticket
+    CONSTRAINT fk_users_tickets_tickets
         FOREIGN KEY (ticket_id)
-        REFERENCES ticket(id)
+        REFERENCES tickets(id)
 );
 
-INSERT INTO users_ticket
-VALUES (1, 1, 1);
-INSERT INTO users_ticket
-VALUES (2, 1, 2);
-INSERT INTO users_ticket
-VALUES (3, 2, 2);
-INSERT INTO users_ticket
-VALUES (4, 3, 3);
-INSERT INTO users_ticket
-VALUES (5, 4, 4);
+INSERT INTO users_tickets
+VALUES (1, 1);
+INSERT INTO users_tickets
+VALUES (1, 2);
+INSERT INTO users_tickets
+VALUES (2, 2);
+INSERT INTO users_tickets
+VALUES (3, 3);
+INSERT INTO users_tickets
+VALUES (4, 4);
 
 
 CREATE TABLE changes_audit(
     id number(10) NOT NULL,
     users_id number(10) NOT NULL,
     table_name varchar2(50) NOT NULL,
+    thread_name varchar2(50) NOT NULL,
     change_date date NOT NULL,
 
     CONSTRAINT audit_pk PRIMARY KEY (id),
@@ -131,4 +179,6 @@ CREATE TABLE changes_audit(
 );
 
 INSERT INTO changes_audit
-VALUES (1, 1, 'users', TO_DATE('2003/05/03 21:02:44', 'yyyy/mm/dd hh24:mi:ss'));
+VALUES (1, 1, 'users', ' ',TO_DATE('2003/05/03 21:02:44', 'yyyy/mm/dd hh24:mi:ss'));
+
+commit;

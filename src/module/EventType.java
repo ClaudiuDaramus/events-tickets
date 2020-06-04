@@ -1,4 +1,4 @@
-package com.company;
+package module;
 
 public class EventType implements Comparable<EventType> {
     private Long id;

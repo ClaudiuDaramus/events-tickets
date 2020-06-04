@@ -1,4 +1,4 @@
-package com.company;
+package module;
 
 import java.util.Date;
 

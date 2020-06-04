@@ -1,4 +1,4 @@
-package com.company;
+package module;
 
 public class EventLocation {
     private Long id;

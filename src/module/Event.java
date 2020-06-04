@@ -1,4 +1,4 @@
-package com.company;
+package module;
 
 import java.util.Date;
 
@@ -44,7 +44,7 @@ public class Event {
         this.name = name;
     }
 
-    public Date getEventDate() {
+    public Date  getEventDate() {
         return eventDate;
     }
 

@@ -1,19 +1,17 @@
-package com.company;
+package module;
 
-import java.util.Date;
+import java.util.List;
 
 public abstract class Ticket {
     protected Long id;
-    protected User user;
     protected Event event;
-    protected Date eventDate;
+    protected List<User> userList;
     protected Double price;
 
-    protected Ticket(Long id, User user, Event event, Double price) {
+    protected Ticket(Long id, Event event, List<User> userList, Double price) {
         this.id = id;
-        this.user = user;
         this.event = event;
-        this.eventDate = event.getEventDate();
+        this.userList = userList;
         this.price = price;
     }
 
@@ -28,14 +26,6 @@ public abstract class Ticket {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public Event getEvent() {
         return event;
     }
@@ -44,19 +34,19 @@ public abstract class Ticket {
         this.event = event;
     }
 
-    public Date getEventDate() {
-        return eventDate;
-    }
-
-    public void setEventDate(Date eventDate) {
-        this.eventDate = eventDate;
-    }
-
     public Double getPrice() {
         return price;
     }
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
     }
 }
