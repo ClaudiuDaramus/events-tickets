@@ -1,17 +1,18 @@
-package com.company;
+package module;
+
+import java.util.List;
 
 public class StandardTicket extends Ticket {
-    protected StandardTicket(Long id, User user, Event event, Double price) {
-        super(id, user, event, price);
+    public StandardTicket(Long id, Event event, List<User> userList, Double price) {
+        super(id, event,userList, price);
     }
 
     @Override
     public String toString() {
         return "StandardTicket{" +
                 "id=" + id +
-                ", user=" + user +
                 ", event=" + event +
-                ", eventDate=" + eventDate +
+                ", userList=" + userList +
                 ", price=" + price +
                 '}';
     }
