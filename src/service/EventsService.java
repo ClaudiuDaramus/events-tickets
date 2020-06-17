@@ -1,9 +1,10 @@
 package service;
 
 import module.*;
-import oracle.ucp.util.Pair;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EventsService {
     private final DataService dataService = new DataService();
@@ -53,10 +54,11 @@ public class EventsService {
         return null;
     }
 
-    public Pair<List<StandardTicket>, List<PremiumTicket>> getTicketsForUser() {
+    public Map<List<StandardTicket>, List<PremiumTicket>> getTicketsForUser() {
         List<StandardTicket> standardTicketsForUser = new ArrayList<>();
         List<PremiumTicket> premiumTicketsForUser = new ArrayList<>();
-        
+        Map<List<StandardTicket>, List<PremiumTicket>> listMap = new HashMap<>();
+
         for(StandardTicket standardTicket: standardTickets) {
             standardTicket.getUserList().forEach(ticketUser -> {
                 if(ticketUser.equals(currentUser))
@@ -70,8 +72,9 @@ public class EventsService {
             });
         }
         dataService.writeActionToAudit("getTicketsForUser", currentUser);
-        
-        return new Pair<>(standardTicketsForUser, premiumTicketsForUser);
+        listMap.put(standardTicketsForUser, premiumTicketsForUser);
+
+        return listMap;
     }
 
     public ArrayList<Event> getEvents() {

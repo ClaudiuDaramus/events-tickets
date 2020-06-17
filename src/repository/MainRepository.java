@@ -1,14 +1,11 @@
 package repository;
 
 import module.*;
-import oracle.ucp.util.Pair;
-
 import java.sql.*;
-import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.Date;
 
 public class MainRepository extends Thread{
     private static final String DB_URL = "";
@@ -155,13 +152,16 @@ public class MainRepository extends Thread{
         recordAudit("users");
         return user;
     }
-    public Pair<List<StandardTicket>, List<PremiumTicket>> getUserTickets(Long userId) throws SQLException, ParseException {
+    public Map<List<StandardTicket>, List<PremiumTicket>> getUserTickets(Long userId) throws SQLException, ParseException {
         List<PremiumTicket> premiumTickets;
         List<StandardTicket> standardTickets;
-        premiumTickets = getPremiumTickets(false, userId);
+        Map<List<StandardTicket>, List<PremiumTicket>> listMap = new HashMap<>();
+
         standardTickets = getStandardTickets(false, userId);
-        Pair<List<StandardTicket>, List<PremiumTicket>> resultPair = new Pair<>(standardTickets, premiumTickets);
-        return resultPair;
+        premiumTickets = getPremiumTickets(false, userId);
+
+        listMap.put(standardTickets, premiumTickets);
+        return listMap;
     }
 
     public List<PremiumTicket> getPremiumTickets(boolean all, Long userId) throws SQLException, ParseException {

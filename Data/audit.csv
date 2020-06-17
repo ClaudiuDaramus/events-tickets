@@ -52,3 +52,13 @@
 52,0,AWT-EventQueue-0,getStandardTickets,Thu Jun 04 22:38:46 EEST 2020
 53,0,AWT-EventQueue-0,getPremiumTickets,Thu Jun 04 22:38:47 EEST 2020
 54,0,AWT-EventQueue-0,getAuditRecords,Thu Jun 04 22:38:48 EEST 2020
+55,0,AWT-EventQueue-0,getTicketsForUser,Mon Jun 15 22:45:44 EEST 2020
+56,0,AWT-EventQueue-0,getEvents,Mon Jun 15 22:45:44 EEST 2020
+57,0,AWT-EventQueue-0,getTicketsForUser,Mon Jun 15 22:51:05 EEST 2020
+58,0,AWT-EventQueue-0,getEvents,Mon Jun 15 22:51:06 EEST 2020
+59,0,AWT-EventQueue-0,getEventLocations,Mon Jun 15 22:51:06 EEST 2020
+60,0,AWT-EventQueue-0,getStandardTickets,Mon Jun 15 22:51:07 EEST 2020
+61,0,AWT-EventQueue-0,getPremiumTickets,Mon Jun 15 22:51:07 EEST 2020
+62,0,AWT-EventQueue-0,getAuditRecords,Mon Jun 15 22:51:07 EEST 2020
+63,0,AWT-EventQueue-0,getTicketsForUser,Wed Jun 17 20:46:29 EEST 2020
+64,0,AWT-EventQueue-0,getAuditRecords,Wed Jun 17 20:46:30 EEST 2020

@@ -1,18 +1,16 @@
 import module.*;
-import oracle.ucp.util.Pair;
 import repository.MainRepository;
-import service.DataService;
 import service.EventsService;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class Main{
-    private final static String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
+    private final static String JDBC_DRIVER = "oracle.jdbc.OracleDriver";
     private static String dataSource = "empty";
     private static User currentUser = null;
     private static JFrame frame;
@@ -143,18 +141,20 @@ public class Main{
         menuButton = new JButton("Display Tickets for User");
         menuButton.setBounds(bounds.x, bounds.y, bounds.width,bounds.height);
         menuButton.addActionListener(actionEvent -> {
-            Pair<List<StandardTicket>, List<PremiumTicket>> pair;
+            Map<List<StandardTicket>, List<PremiumTicket>> listMap;
             List<StandardTicket> standardTickets = null;
             List<PremiumTicket> premiumTickets = null;
             if(dataSource.equals("Local Storage")) {
-                pair = eventsService.getTicketsForUser();
-                standardTickets = pair.get1st();
-                premiumTickets = pair.get2nd();
+                listMap = eventsService.getTicketsForUser();
+                Map.Entry<List<StandardTicket>, List<PremiumTicket>> entry = listMap.entrySet().iterator().next();
+                standardTickets = entry.getKey();
+                premiumTickets = entry.getValue();
             } else if(dataSource.equals("Oracle Database")) {
                 try {
-                    pair = mainRepository.getUserTickets(currentUser.getId());
-                    standardTickets = pair.get1st();
-                    premiumTickets = pair.get2nd();
+                    listMap = mainRepository.getUserTickets(currentUser.getId());
+                    Map.Entry<List<StandardTicket>, List<PremiumTicket>> entry = listMap.entrySet().iterator().next();
+                    standardTickets = entry.getKey();
+                    premiumTickets = entry.getValue();
                 } catch (SQLException | ParseException throwable) {
                     throwable.printStackTrace();
                 }
